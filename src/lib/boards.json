@@ -1,0 +1,75 @@
+{
+  "boards": [
+    {
+      "name": "Board #1",
+      "id": "1",
+      "uid": "user1",
+      "tags": [
+        "Svelte",
+        "React",
+        "Javascript",
+        "movies"
+      ],
+      "board": [
+        {
+          "category": "inbox",
+          "uid": "user1",
+          "tasks": [
+            {
+              "taskName": "Learn react",
+              "description": "description task",
+              "category": "inbox",
+              "dueDate": "2024-07-17",
+              "tags": [
+                "React"
+              ],
+              "done": false,
+              "taskId": "73815d3d-dccf-40b0-8867-b0b55da59b2f"
+            },
+            {
+              "taskName": "Watch midnight Paris 🎞️",
+              "description": "",
+              "category": "inbox",
+              "dueDate": "",
+              "tags": [
+                "movies"
+              ],
+              "done": false,
+              "taskId": "a45d61de-2fbf-4ad2-a8b5-2f6274e9d36d"
+            }
+          ]
+        },
+        {
+          "category": "reminders",
+          "uid": "user1",
+          "tasks": [
+            {
+              "taskName": "Learn Svelte 5",
+              "description": "description task",
+              "category": "reminders",
+              "dueDate": "",
+              "tags": [],
+              "done": false,
+              "taskId": "f0bfe253-7093-40e4-905e-274e041e632e"
+            }
+          ]
+        },
+        {
+          "category": "actions",
+          "uid": "user1",
+          "tasks": [
+            {
+              "taskName": "Learn postgreSQL",
+              "description": "description task",
+              "category": "actions",
+              "dueDate": "",
+              "tags": [],
+              "done": false,
+              "taskId": "8bfbbe3b-0804-404d-aae4-cf2458fdb436"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,72 +1,66 @@
 <script>
-  import { isLoggedIn, user } from "$lib/stores.js";
-  import { Auth } from "$lib/firebase/firebase.js";
+	import { isLoggedIn, user } from '$lib/stores.js';
+	import { Auth } from '$lib/firebase/firebase.js';
+	import { goto } from '$app/navigation';
+
+	import ContextMenu from '$lib/components/context-menu.svelte';
+
+	import Link from '$lib/components/link.svelte';
+	import Button from '$lib/components/button.svelte';
+
+	let openMenu = false;
 </script>
 
 <header class="header">
-  <div class="header__logo-container container">
-    <p>logo</p>
-  </div>
+	<div class="header__div container">
+		<p>logo</p>
+		<ContextMenu triggerText={'adf'}>
+			<li>
+				<Link href={'/'} text={'home'}>Home</Link>
+			</li>
+			{#if $isLoggedIn}
+				<li>
+					<Link href={'/dashboard'}>Dashboard</Link>
+				</li>
+				<li>
+					<Button
+						onClickFire={() => {
+							Auth.logOut();
+							goto('/');
+						}}>logOut</Button
+					>
+				</li>
+			{/if}
+		</ContextMenu>
+	</div>
 
-  <div class="context-menu">
-    <div>
-      <a href="/">Home</a>
-    </div>
-    <div >
-      <a href="/dashboard">Dashboard</a>
-    </div>
-    <div>
-      <a href="/usr-settings">Settings</a>
-    </div>
-    <button on:click={() => Auth.logOut()}>
-      logOut
-    </button>
-  </div>
+	<div class="header__div container">
+		<Button>Theme</Button>
 
-  <div class="header__config container">
-    <button>Theme</button>
-    
-    {#if !$isLoggedIn}
-       <button><a href="/login">Login to start</a></button>
-       {:else}
-       <button><a href="/settings">Settings</a></button>
-       
-    {/if}
-  </div>
+		{#if !$isLoggedIn}
+			<Button href={'/login'}>Login</Button>
+		{:else}
+			<Button href={'/settings'}>Settings</Button>
+		{/if}
+	</div>
 </header>
 
-
 <style>
-  .header, 
-  .header__nav, 
-  .header__ul,
-  .header__config {
-    gap: 1em;
-    display: flex;
-  }
-  .header {
-    justify-content: space-between;
-    align-items: stretch;
-    
-  }
-  
-  .header__nav, .header__logo-container, .header__config {
-      background-color: aliceblue;
-      padding-left: 1rem;
-      padding-right: 1rem;
-  }
+	.header {
+		display: flex;
+		justify-content: space-between;
+		gap: 1em;
+		width: 100%;
+	}
+	.header__div {
+		display: flex;
+		align-items: center;
+		justify-content: space-around;
+		gap: 1em;
 
-  .header__nav {
-    justify-self: right;
-  }
+		padding-left: 1em;
+		padding-right: 1em;
 
-  .header__ul{
-    padding: 0;
-    list-style: none;
-  }
-  .header__config {
-    gap: .5em;
-    align-items: center;
-  }
-
+		border-radius: 0.5em;
+	}
 </style>

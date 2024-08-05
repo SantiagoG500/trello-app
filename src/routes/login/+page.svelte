@@ -1,88 +1,74 @@
 <script>
-  import { goto } from "$app/navigation";
-  import { Auth, Database } from "$lib/firebase/firebase.js";
-	import { onMount } from 'svelte';
-  import {isLoggedIn } from "$lib/stores.js";
-	import { ProviderId, getRedirectResult } from 'firebase/auth';
+	import { Auth, Database } from '$lib/firebase/firebase.js';
+	import { User } from '$lib/firebase/firebase.schemas.js';
+	import { writable } from 'svelte/store';
 
+	import Button from '$lib/components/button.svelte';
 
-  if ($isLoggedIn) goto('dashboard/')
+	let error = writable(undefined);
 
-  onMount( async () => {
-    try {
-      const redirectRes = await getRedirectResult(Auth.authInfo)
-      if (!redirectRes) return
-      const user = redirectRes.user
-      const userInDatabase = await Database.getDocument('users', user.uid)
+	const login = async ({ provider }) => {
+		try {
+			const userInfo = await Auth.signInWithPopUp(provider);
 
+			if (userInfo instanceof Error) {
+				const { cause, message, name } = userInfo;
+				$error = { cause, message, name };
+				return;
+			}
 
-      if (!userInDatabase) {
-        // get provider
-        const {uid, displayName, email} = user
-        const userData = {
-          name: displayName,
-          uid,
-          email,
-          boardIds: [],
-          tags: [],
-          ProviderId: redirectRes.providerId
-        }
+			const { user, providerId } = userInfo;
+			const { displayName, email, uid } = user;
 
-        // here uid is the unique identificator for the usre collection
-        Database.setData('users', uid, userData)
-      }
-      
-      
-      // console.log({userInDatabase, user});
-      // console.log({redirectRes, userInDatabase});
-    } catch (error) {
-      console.error(`Error getting auth redirect Result ${error}`);
-    }
+			const newUser = User({
+				name: displayName,
+				uid,
+				email,
+				providerId
+			});
 
-  } )
-  // onMount(() => {
-  //   getRedirectResult(Auth.authInfo)
-  //   .then(res => {
-  //     if (!res) return
-  //     console.log(res);
-  //   })
-  //   .catch( err => console.error(`Error with credentials: ${err}`))
-    
-  // } )
-
+			await Database.setData('users', uid, newUser);
+		} catch (err) {
+			const { cause, message, name } = err;
+			$error = { cause, message, name };
+		}
+	};
 </script>
 
 <section>
-  <div>
-    <h2>Login with Email and password</h2>    
-    <label for="email">Email</label>
-    <input type="text" id="email" placeholder="yourAccount@example.com">
-    <br>
-    <label for="password">Password</label>
-    <input type="password" id="password">
-  </div>
-  <div>
-    <h2>Login With Provider</h2>
-    <button on:click={() => Auth.sigInWithRedirect('Google')}>Login With Google</button>
-    <button on:click={() => Auth.sigInWithRedirect('GitHub')}>Login With GitHub</button>
-    <!-- <button on:click={loginGitHub}>Login With GitHub</button> -->
-  </div>
+	<div>
+		<h2>Login with Email and password</h2>
+		<label for="email">Email</label>
+		<input type="text" id="email" placeholder="yourAccount@example.com" />
+		<br />
+		<label for="password">Password</label>
+		<input type="password" id="password" />
+	</div>
+	<div>
+		<h2>Login With Provider</h2>
+
+		<Button
+			onClickFire={() => {
+				login({ provider: 'google' });
+				$error = undefined;
+			}}
+		>
+			Login With Google
+		</Button>
+		<Button
+			onClickFire={() => {
+				login({ provider: 'gitHub' });
+				$error = undefined;
+			}}
+		>
+			Login With GitHub
+		</Button>
+	</div>
+
+	{#if $error}
+		<div>
+			<h3>You have an error</h3>
+			<p>{$error.message}</p>
+		</div>
+	{/if}
 </section>
-
-<!-- <form action="?/login" method="post">
-  <hgroup>
-    <h2>Login With Email and password</h2>
-  </hgroup>
-
-  <label for="email">Email</label>
-  <input type="text" id="email">
-
-  <label for="password">Email</label>
-  <input type="text" id="password">
-
-  <button type="submit">Login with email and password</button>
-</form>
-<form method="post" action="login">
-  <button formaction="?/login&provider=github">Login with Github</button>
-</form> -->
-

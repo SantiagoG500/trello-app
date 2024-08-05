@@ -1,0 +1,27 @@
+/* Estilos para dispositivos pequeños (teléfonos) */
+@media only screen and (max-width: 600px) {
+  .container {
+    background-color: lightblue;
+  }
+}
+
+/* Estilos para dispositivos medianos (tabletas) */
+@media only screen and (min-width: 601px) and (max-width: 768px) {
+  .container {
+    background-color: lightgreen;
+  }
+}
+
+/* Estilos para dispositivos grandes (laptops/desktops) */
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+  .container {
+    background-color: lightcoral;
+  }
+}
+
+/* Estilos para dispositivos extra grandes (pantallas grandes) */
+@media only screen and (min-width: 1025px) {
+  .container {
+    background-color: lightgoldenrodyellow;
+  }
+}

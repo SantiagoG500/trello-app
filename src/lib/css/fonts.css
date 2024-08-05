@@ -1,0 +1,42 @@
+@font-face {
+  font-family: 'Poppins';
+  src: url('$lib/fonts/poppins-thin-webfont.woff'),
+    url('$lib/fonts/poppins-thin-webfont.woff');
+  font-weight: 200;
+  font-style: normal;
+  font-display: optional;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('$lib/fonts/poppins-regular-webfont.woff'),
+    url('$lib/fonts/poppins-regular-webfont.woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: optional;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('$lib/fonts/poppins-medium-webfont.woff'),
+    url('$lib/fonts/poppins-medium-webfont.woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: optional;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('$lib/fonts/poppins-semibold-webfont.woff'),
+    url('$lib/fonts/poppins-semibold-webfont.woff');
+  font-weight: 600;
+  font-display: optional;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('$lib/fonts/poppins-bold-webfont.woff'),
+    url('$lib/fonts/poppins-bold-webfont.woff');
+  font-weight: 700;
+  font-display: optional;
+}

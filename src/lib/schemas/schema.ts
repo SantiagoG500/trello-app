@@ -28,6 +28,7 @@ export const createTaskSchema = z.object({
     .optional(),
   dueDate: z.date()
     .optional(),
+  completed: z.boolean()
 })
 
 export type CreateBoardSchema = typeof createBoardSchema

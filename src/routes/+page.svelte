@@ -1,6 +1,5 @@
 <script>
   import Button from '@/components/ui/button/button.svelte';
-  import * as DropdownMenu from "@/components/ui/dropdown-menu/index";
 </script>
 
 <main class="h-screen flex">

@@ -2,9 +2,9 @@
   import * as Dialog from '$lib/components/ui/dialog/index';
   import * as Form from '$lib/components/ui/form/index'
   import { Input } from '$lib/components/ui/input/index';
-  import { createTagSchema, type CreateTagSchema } from '@/schemas/schema';
-
+  
   import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
+  import { createTagSchema, type CreateTagSchema } from '@/schemas/schema';
   import { zodClient } from 'sveltekit-superforms/adapters';
 
   interface Props {

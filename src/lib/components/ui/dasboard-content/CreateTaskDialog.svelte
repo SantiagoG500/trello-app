@@ -6,6 +6,7 @@
   import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
   import { createTaskSchema, type CreateTaskSchema } from '$lib/schemas/schema';
   import { zodClient } from 'sveltekit-superforms/adapters';
+  import Checkbox from '../checkbox/checkbox.svelte';
   
   interface Props { 
     data: SuperValidated<Infer<CreateTaskSchema>>,
@@ -17,7 +18,17 @@
   
   const form = superForm(data, {
     validators: zodClient(createTaskSchema),
-    id: 'taskForm'
+    id: 'taskForm',
+    onUpdate: ({ form }) => {
+      if (!form.valid) return
+      const { data } = form
+      const { 
+        name,
+        description,
+        dueDate,
+        completed
+       } = data
+    }
   })
 
   const { form: formData, enhance } = form
@@ -58,7 +69,24 @@
               {/snippet}
             </Form.Control>
           </Form.Field>
-          
+
+
+          <Form.Field {form} name="completed" class="mb-4">
+            <Form.Control>
+              {#snippet children({ props })}
+              <div class="flex items-center space-x-2">
+                  <Checkbox 
+                    {...props} 
+                    bind:checked={$formData.completed}
+                  />
+                  <Form.Label>Mark as completed</Form.Label>
+                  <input name={props.name} value={$formData.completed} hidden />
+                </div>
+              {/snippet}
+            </Form.Control>
+            <Form.FieldErrors />
+          </Form.Field>
+
           <Form.Button>Submit</Form.Button>
         </form>
 

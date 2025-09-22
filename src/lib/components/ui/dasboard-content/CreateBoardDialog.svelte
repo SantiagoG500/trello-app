@@ -6,6 +6,7 @@
   import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
   import { createBoardSchema, type CreateBoardSchema } from '$lib/schemas/schema';
   import { zodClient } from 'sveltekit-superforms/adapters';
+  import { createBoard } from '@/db/actions/board';
   
   interface Props { 
     data: SuperValidated<Infer<CreateBoardSchema>>,
@@ -16,11 +17,16 @@
   let { data, isDialogOpen, onOpenChange }: Props = $props();
   const form = superForm(data, {
     validators: zodClient(createBoardSchema),
-    id: 'boardForm'
+    id: 'boardForm',
+    onUpdated: ({ form }) => {
+      if (!form.valid) return
+      const { data } = form 
+      const { name, description } = data
+      
+      createBoard({ name, description })
+    }
   })
-
-  const { form: formData, enhance } = form
-
+  const { form: formData, enhance } = form  
 </script>
  
 <Dialog.Root bind:open={isDialogOpen} onOpenChange={onOpenChange}>
